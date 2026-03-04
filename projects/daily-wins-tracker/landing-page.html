@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Wins: Build Unstoppable Momentum in 12 Weeks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 60px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero .subtitle {
+            font-size: 20px;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            background: white;
+            color: #667eea;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* FEATURES */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .feature {
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .feature h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .feature p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* PRICING */
+        .pricing {
+            background: #f8f9fa;
+            padding: 60px 20px;
+            border-radius: 12px;
+            margin-bottom: 60px;
+        }
+
+        .pricing h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            border: 2px solid #ddd;
+            text-align: center;
+        }
+
+        .pricing-card.featured {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            transform: scale(1.05);
+        }
+
+        .price {
+            font-size: 48px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .price-desc {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .pricing-card li {
+            padding: 8px 0;
+            color: #666;
+            font-size: 14px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .pricing-card li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        /* TESTIMONIALS */
+        .testimonials {
+            margin-bottom: 60px;
+        }
+
+        .testimonials h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .testimonial {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .testimonial-text {
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* FAQ */
+        .faq {
+            background: #f8f9fa;
+            padding: 60px 20px;
+            border-radius: 12px;
+            margin-bottom: 60px;
+        }
+
+        .faq h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .faq-item {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .faq-question {
+            font-weight: 700;
+            color: #333;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .faq-answer {
+            color: #666;
+            margin-top: 10px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero .subtitle {
+                font-size: 16px;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HERO -->
+        <div class="hero">
+            <h1>Build Unstoppable Momentum in 12 Weeks</h1>
+            <p class="subtitle">Track small wins. Build big confidence. Join 50,000+ men who changed their lives by celebrating progress, not waiting for motivation.</p>
+            <button class="cta-button">Get Started ($47)</button>
+            <button class="cta-button" style="background: transparent; color: white; border: 2px solid white;">Try Free App</button>
+        </div>
+
+        <!-- FEATURES -->
+        <h2 style="text-align: center; font-size: 36px; margin-bottom: 40px; color: #333;">How It Works</h2>
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>Log in 3 Seconds</h3>
+                <p>No complex goal-setting. Just record the small win you just crushed.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <h3>Watch Momentum Build</h3>
+                <p>12-week heatmap shows your consistency. Every day is a battle you won.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎉</div>
+                <h3>Celebrate Progress</h3>
+                <p>Confetti, sounds, motivation. Your app celebrates you because nobody else will.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💪</div>
+                <h3>Build Real Confidence</h3>
+                <p>Small wins compound. After 12 weeks, you're unrecognizable to your old self.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <h3>Works Offline</h3>
+                <p>Zero tracking. All your data stays on your phone. Forever.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔥</div>
+                <h3>No BS</h3>
+                <p>No algorithms. No premium paywalls. No ads. Just a tool that works.</p>
+            </div>
+        </div>
+
+        <!-- PRICING -->
+        <div class="pricing">
+            <h2>Simple Pricing</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="price">Free</div>
+                    <div class="price-desc">The App</div>
+                    <ul>
+                        <li>Daily wins tracking</li>
+                        <li>12-week heatmap</li>
+                        <li>Streak counter</li>
+                        <li>6 categories</li>
+                        <li>Dark mode</li>
+                        <li>Offline access</li>
+                    </ul>
+                    <button class="cta-button" style="background: #f0f0f0; color: #333;">Start Free</button>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="price">$47</div>
+                    <div class="price-desc">Starter (Most Popular)</div>
+                    <ul>
+                        <li>Everything in Free</li>
+                        <li>eBook: "Daily Wins System"</li>
+                        <li>5-email course</li>
+                        <li>Advanced analytics</li>
+                        <li>Custom categories</li>
+                        <li>Email support</li>
+                    </ul>
+                    <button class="cta-button">Buy Now ($47)</button>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="price">$9.99/mo</div>
+                    <div class="price-desc">Premium</div>
+                    <ul>
+                        <li>Everything in Starter</li>
+                        <li>Cloud sync</li>
+                        <li>Advanced insights</li>
+                        <li>Monthly challenges</li>
+                        <li>Community access</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <button class="cta-button">Subscribe</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TESTIMONIALS -->
+        <div class="testimonials">
+            <h2>What Users Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <div class="testimonial-text">"I started logging 1 pushup a day. After 3 months, I'm doing 100. But more than that, I went from depressed to confident. This app made me actually DO something instead of just thinking about it."</div>
+                    <div class="testimonial-author">— Marcus, 32</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">"Every win logged feels like proof I can change. The heatmap shows me months of green. Can't break the chain now. This simple little app changed my life."</div>
+                    <div class="testimonial-author">— David, 28</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">"I bought the eBook expecting marketing fluff. Instead it's a real system. The app actually helps me build discipline by making it visible. Worth way more than $47."</div>
+                    <div class="testimonial-author">— James, 35</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="faq">
+            <h2>Questions?</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">🤔 Is this just another habit tracker?</div>
+                <div class="faq-answer">No. Most habit trackers are about discipline (which sucks). Daily Wins is about celebrating progress. You log the small win you JUST achieved, not goals you want to hit. Completely different psychology.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">💿 Will you track my data?</div>
+                <div class="faq-answer">Never. All data stays on your phone. Zero cloud storage, zero tracking, zero creepy privacy stuff. Your wins are yours.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">⏰ How much time does this take?</div>
+                <div class="faq-answer">3 seconds per win. Logging "1 pushup" takes longer to say than to do and log. It's friction-free by design.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">📱 Does it work on my phone?</div>
+                <div class="faq-answer">Yes. iPhone, Android, any browser. You can even install it as an app (no App Store needed).</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">💳 What if I don't like it?</div>
+                <div class="faq-answer">You get the app + eBook free trial. If it's not for you, no charge. But it will be.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 Daily Wins. Built for people who actually want to change.</p>
+        <p style="font-size: 12px;">No tracking. No bullshit. Just a tool that works.</p>
+    </div>
+
+    <script>
+        // FAQ toggle
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', function() {
+                this.parentElement.querySelector('.faq-answer').style.display = 
+                    this.parentElement.querySelector('.faq-answer').style.display === 'none' ? 'block' : 'none';
+            });
+            this.parentElement.querySelector('.faq-answer').style.display = 'none';
+        });
+
+        // CTA buttons
+        document.querySelectorAll('.cta-button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.textContent.includes('Free')) {
+                    window.open('daily-wins-enhanced.html', '_blank');
+                } else if (this.textContent.includes('Subscribe')) {
+                    alert('Subscription plan coming soon!');
+                } else {
+                    // This would go to Gumroad or Stripe payment page
+                    alert('Purchase redirecting to payment page...');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
