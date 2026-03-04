@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Daily Wins Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0e27;
+            --bg-card: #1a1f3a;
+            --bg-input: #0f1429;
+            --border: #2d3561;
+            --text-primary: #ffffff;
+            --text-secondary: #888;
+            --accent: #00d4ff;
+            --success: #00ff00;
+            --warning: #ffaa00;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            padding-bottom: 100px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-top: 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .motivational {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 3px solid var(--accent);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        /* STATS */
+        .stats-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        .stat-box {
+            background: var(--bg-input);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* QUICK INPUT */
+        .quick-input-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .category-btn {
+            padding: 12px;
+            border: 2px solid var(--border);
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .category-btn.selected {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: var(--bg-dark);
+        }
+
+        .win-input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            background: var(--bg-input);
+            color: var(--text-primary);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: none;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+
+        textarea {
+            min-height: 60px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent) 0%, #0099cc 100%);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        /* WINS */
+        .wins-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .wins-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .win-item {
+            background: var(--bg-input);
+            border-left: 4px solid var(--success);
+            padding: 12px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .win-item-content {
+            flex: 1;
+        }
+
+        .win-item-title {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .win-item-category {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .win-item-delete {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* HEATMAP */
+        .heatmap-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .heatmap {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+        }
+
+        .heatmap-cell {
+            aspect-ratio: 1;
+            border-radius: 4px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .heatmap-cell:hover {
+            transform: scale(1.1);
+        }
+
+        .heatmap-cell.level-0 { background: var(--bg-input); color: var(--text-secondary); }
+        .heatmap-cell.level-1 { background: rgba(0, 255, 0, 0.2); color: var(--success); }
+        .heatmap-cell.level-2 { background: rgba(0, 255, 0, 0.4); color: var(--success); }
+        .heatmap-cell.level-3 { background: rgba(0, 255, 0, 0.6); color: var(--success); }
+        .heatmap-cell.level-4 { background: var(--success); color: var(--bg-dark); }
+
+        /* INSIGHTS */
+        .insights-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .insight-item {
+            background: var(--bg-input);
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+
+        .insight-label {
+            color: var(--text-secondary);
+            font-size: 11px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .insight-value {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* BUTTONS */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .btn-secondary {
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .btn-danger {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+            color: white;
+        }
+
+        /* CONFETTI */
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 24px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .categories { grid-template-columns: 1fr 1fr; }
+            .stat-value { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Daily Wins</h1>
+            <p class="subtitle">Track small wins. Build big momentum.</p>
+        </header>
+
+        <div class="motivational" id="motivational">💪 Every win counts. You're building momentum one day at a time.</div>
+
+        <!-- STATS -->
+        <div class="stats-card">
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value" id="todayWins">0</div>
+                    <div class="stat-label">Today</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="streakDays">0</div>
+                    <div class="stat-label">Day Streak</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="totalWins">0</div>
+                    <div class="stat-label">Total</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- INSIGHTS -->
+        <div class="insights-section">
+            <h2>Your Progress</h2>
+            <div id="insightsContainer">
+                <div class="insight-item">
+                    <div class="insight-label">This Week</div>
+                    <div class="insight-value" id="weekWins">0 wins</div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-label">Favorite Category</div>
+                    <div class="insight-value" id="topCategory">None yet</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUICK INPUT -->
+        <div class="quick-input-section">
+            <h2>Add a Win</h2>
+            <div class="categories" id="categories"></div>
+            <div class="win-input-group">
+                <label>What did you accomplish?</label>
+                <input type="text" id="winTitle" placeholder="e.g., 50 pushups, read 30 min..." maxlength="60">
+            </div>
+            <div class="win-input-group">
+                <label>Details (optional)</label>
+                <textarea id="winDetails" placeholder="Any notes..."></textarea>
+            </div>
+            <button class="btn-primary" id="submitBtn">Log This Win ✨</button>
+        </div>
+
+        <!-- TODAY'S WINS -->
+        <div class="wins-section">
+            <h2>Today's Wins</h2>
+            <div class="wins-list" id="winsList">
+                <div class="empty-state">No wins logged yet. Start now! 🚀</div>
+            </div>
+        </div>
+
+        <!-- HEATMAP -->
+        <div class="heatmap-section">
+            <h2>12-Week Momentum</h2>
+            <div class="heatmap" id="heatmap"></div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="button-group">
+            <button class="btn-secondary" id="exportBtn">📥 Export Data</button>
+            <button class="btn-secondary btn-danger" id="clearBtn">🗑️ Clear All</button>
+        </div>
+    </div>
+
+    <script>
+        const CATEGORIES = [
+            { id: 'fitness', label: '💪 Fitness' },
+            { id: 'learning', label: '📚 Learning' },
+            { id: 'social', label: '👥 Social' },
+            { id: 'work', label: '💼 Work' },
+            { id: 'health', label: '❤️ Health' },
+            { id: 'discipline', label: '🎯 Discipline' }
+        ];
+
+        const MOTIVATIONS = [
+            '💪 Every win counts. You\'re building momentum one day at a time.',
+            '🚀 Small steps lead to big changes. Keep going!',
+            '⭐ You\'re crushing it! This is how champions are built.',
+            '🔥 Consistency is key. You\'re doing amazing.',
+            '✨ Each win is proof you\'re serious about change.',
+            '🎯 You\'re the architect of your own transformation.',
+            '💎 These small wins compound into unstoppable success.',
+            '🏆 Your future self will thank you for showing up today.',
+        ];
+
+        let state = {
+            selectedCategory: 'fitness',
+            wins: []
+        };
+
+        const el = {
+            categories: document.getElementById('categories'),
+            winTitle: document.getElementById('winTitle'),
+            winDetails: document.getElementById('winDetails'),
+            submitBtn: document.getElementById('submitBtn'),
+            winsList: document.getElementById('winsList'),
+            heatmap: document.getElementById('heatmap'),
+            todayWins: document.getElementById('todayWins'),
+            streakDays: document.getElementById('streakDays'),
+            totalWins: document.getElementById('totalWins'),
+            weekWins: document.getElementById('weekWins'),
+            topCategory: document.getElementById('topCategory'),
+            motivational: document.getElementById('motivational'),
+            exportBtn: document.getElementById('exportBtn'),
+            clearBtn: document.getElementById('clearBtn')
+        };
+
+        function init() {
+            loadData();
+            renderCategories();
+            renderHeatmap();
+            updateStats();
+            rotateMotivation();
+
+            el.submitBtn.addEventListener('click', addWin);
+            el.winTitle.addEventListener('keypress', e => e.key === 'Enter' && addWin());
+            el.exportBtn.addEventListener('click', exportData);
+            el.clearBtn.addEventListener('click', () => confirm('Clear all data?') && clearData());
+
+            setInterval(rotateMotivation, 60000); // Change motivation every minute
+        }
+
+        function renderCategories() {
+            el.categories.innerHTML = CATEGORIES.map(cat => `
+                <button class="category-btn ${state.selectedCategory === cat.id ? 'selected' : ''}" data-category="${cat.id}">
+                    ${cat.label}
+                </button>
+            `).join('');
+
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    state.selectedCategory = btn.dataset.category;
+                });
+            });
+        }
+
+        function addWin() {
+            const title = el.winTitle.value.trim();
+            if (!title) return alert('Enter a win!');
+
+            state.wins.push({
+                id: Date.now(),
+                title,
+                details: el.winDetails.value.trim(),
+                category: state.selectedCategory,
+                timestamp: new Date().toISOString()
+            });
+
+            saveData();
+            playSound('win');
+            confetti();
+
+            el.winTitle.value = '';
+            el.winDetails.value = '';
+
+            updateStats();
+            renderWins();
+            renderHeatmap();
+        }
+
+        function renderWins() {
+            const today = new Date().toDateString();
+            const todayWins = state.wins.filter(w => new Date(w.timestamp).toDateString() === today);
+
+            if (!todayWins.length) {
+                el.winsList.innerHTML = '<div class="empty-state">No wins yet. Start now! 🚀</div>';
+                return;
+            }
+
+            el.winsList.innerHTML = todayWins.map(w => {
+                const cat = CATEGORIES.find(c => c.id === w.category);
+                return `
+                    <div class="win-item">
+                        <div class="win-item-content">
+                            <div class="win-item-title">${w.title}</div>
+                            <div class="win-item-category">${cat.label}</div>
+                        </div>
+                        <button class="win-item-delete" onclick="deleteWin(${w.id})">×</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function deleteWin(id) {
+            state.wins = state.wins.filter(w => w.id !== id);
+            saveData();
+            updateStats();
+            renderWins();
+            renderHeatmap();
+        }
+
+        function renderHeatmap() {
+            const today = new Date();
+            const start = new Date(today);
+            start.setDate(start.getDate() - 84);
+
+            let html = '';
+            for (let i = 0; i < 84; i++) {
+                const d = new Date(start);
+                d.setDate(d.getDate() + i);
+                const ds = d.toDateString();
+                const c = state.wins.filter(w => new Date(w.timestamp).toDateString() === ds).length;
+                const l = Math.min(c, 4);
+                html += `<div class="heatmap-cell level-${l}" title="${ds}: ${c} wins">${c || ''}</div>`;
+            }
+            el.heatmap.innerHTML = html;
+        }
+
+        function updateStats() {
+            const today = new Date().toDateString();
+            const tw = state.wins.filter(w => new Date(w.timestamp).toDateString() === today).length;
+            el.todayWins.textContent = tw;
+            el.totalWins.textContent = state.wins.length;
+
+            // Streak
+            let streak = 0;
+            let d = new Date();
+            while (true) {
+                const ds = d.toDateString();
+                if (!state.wins.some(w => new Date(w.timestamp).toDateString() === ds)) break;
+                streak++;
+                d.setDate(d.getDate() - 1);
+            }
+            el.streakDays.textContent = streak;
+
+            // Week wins
+            const week = new Date();
+            week.setDate(week.getDate() - 7);
+            const ww = state.wins.filter(w => new Date(w.timestamp) > week).length;
+            el.weekWins.textContent = `${ww} wins`;
+
+            // Top category
+            const cats = {};
+            state.wins.forEach(w => cats[w.category] = (cats[w.category] || 0) + 1);
+            const top = Object.entries(cats).sort((a, b) => b[1] - a[1])[0];
+            const topCat = top ? CATEGORIES.find(c => c.id === top[0])?.label || 'None' : 'None yet';
+            el.topCategory.textContent = topCat;
+        }
+
+        function rotateMotivation() {
+            el.motivational.textContent = MOTIVATIONS[Math.floor(Math.random() * MOTIVATIONS.length)];
+        }
+
+        function exportData() {
+            const csv = [['Date', 'Time', 'Category', 'Win', 'Details']];
+            state.wins.forEach(w => {
+                const d = new Date(w.timestamp);
+                csv.push([d.toDateString(), d.toLocaleTimeString(), w.category, w.title, w.details]);
+            });
+
+            const text = csv.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+            const blob = new Blob([text], {type: 'text/csv'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `daily-wins-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+        }
+
+        function clearData() {
+            state.wins = [];
+            saveData();
+            updateStats();
+            renderWins();
+            renderHeatmap();
+        }
+
+        function saveData() {
+            localStorage.setItem('dailyWinsData', JSON.stringify(state.wins));
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem('dailyWinsData');
+            if (saved) state.wins = JSON.parse(saved);
+            renderWins();
+        }
+
+        function playSound(type) {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.connect(g);
+            g.connect(ctx.destination);
+            o.frequency.setValueAtTime(800, ctx.currentTime);
+            o.frequency.setValueAtTime(1200, ctx.currentTime + 0.1);
+            g.gain.setValueAtTime(0.2, ctx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+            o.start(ctx.currentTime);
+            o.stop(ctx.currentTime + 0.3);
+        }
+
+        function confetti() {
+            for (let i = 0; i < 30; i++) {
+                const el = document.createElement('div');
+                el.className = 'confetti';
+                el.textContent = ['🎉', '✨', '🚀', '⭐', '💪'][Math.floor(Math.random() * 5)];
+                el.style.left = Math.random() * 100 + '%';
+                el.style.top = '-10px';
+                el.style.fontSize = (20 + Math.random() * 10) + 'px';
+                el.style.animation = `fall ${2 + Math.random()}s linear forwards`;
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 2500);
+            }
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `@keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }`;
+        document.head.appendChild(style);
+
+        init();
+    </script>
+</body>
+</html>
